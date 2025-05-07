@@ -1,6 +1,8 @@
 import 'package:xatter/datasource/firebase_firestore/firebase_firestore_datasource.dart';
 import 'package:xatter/domain/models/conversation.dart';
 import 'package:xatter/domain/use_cases/conversation/get_conversations_use_case.dart';
+import 'package:xatter/domain/use_cases/use_case_no_params.dart';
+import 'package:xatter/domain/use_cases/use_case_result.dart';
 import 'package:xatter/utils/firestore_paths.dart';
 import 'package:xatter/utils/map_reader.dart';
 
@@ -10,11 +12,16 @@ class FirestoreGetConversationsUseCase implements GetConversationsUseCase {
   FirestoreGetConversationsUseCase({required this.datasource});
 
   @override
-  Future<List<ConversationBase>> call() async {
+  Future<UseCaseResult<List<ConversationBase>>> call(
+    UseCaseNoParams params,
+  ) async {
     final result = await datasource.getCollection(
       path: FirestorePaths.conversations(),
     );
 
-    return result.map((e) => ConversationBase.fromJson(MapReader(e))).toList();
+    final conversations =
+        result.map((e) => ConversationBase.fromJson(MapReader(e))).toList();
+
+    return UseCaseResult.success(conversations);
   }
 }

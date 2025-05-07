@@ -1,0 +1,3 @@
+class UseCaseNoParams {
+  const UseCaseNoParams();
+}
