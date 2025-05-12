@@ -1,10 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:xatter/utils/map_reader.dart';
 
 class ConversationBase {
   final String senderName;
   final String senderId;
   final String? lastMessageText;
-  final DateTime? lastMessageTime;
+  final Timestamp? lastMessageTime;
 
   const ConversationBase({
     required this.senderName,
@@ -18,8 +19,7 @@ class ConversationBase {
       senderName: mapReader.getStringOrEmpty('senderName'),
       senderId: mapReader.getStringOrThrow('senderId'),
       lastMessageText: mapReader.getStringOrNull('lastMessageText'),
-      lastMessageTime:
-          mapReader.getTimestampOrNull('lastMessageTime')?.toDate(),
+      lastMessageTime: mapReader.getTimestampOrNull('lastMessageTime'),
     );
   }
 
@@ -28,7 +28,7 @@ class ConversationBase {
       'senderName': senderName,
       'senderId': senderId,
       'lastMessageText': lastMessageText,
-      'lastMessageTime': lastMessageTime,
+      'lastMessageTime': lastMessageTime?.millisecondsSinceEpoch,
     };
   }
 }
@@ -53,16 +53,5 @@ class Conversation extends ConversationBase {
       lastMessageText: base.lastMessageText,
       lastMessageTime: base.lastMessageTime,
     );
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'senderName': super.senderName,
-      'senderId': super.senderId,
-      'lastMessageText': super.lastMessageText,
-      'lastMessageTime': super.lastMessageTime,
-    };
   }
 }

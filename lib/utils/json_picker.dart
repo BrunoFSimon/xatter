@@ -1,6 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:xatter/utils/firebase_crashlytics.dart';
 
+/// essa classe tem dois propósitos:
+///
+/// 1 - ajudar a identificar valores incorretos no banco de dados o quanto antes
+///
+/// 2 - em caso de valores incorretos, retornar um valor padrão para evitar que a aplicação quebre, com exceção de propriedade essenciais para o funcionamento, essas devem lançar erros
 abstract class JsonPicker {
   static bool _isKeyPresent(Map<String, dynamic> json, String key) {
     if (json.containsKey(key) == false) {
@@ -106,7 +111,10 @@ abstract class JsonPicker {
     return value as Timestamp;
   }
 
-  static Timestamp getTimestampOrZero(Map<String, dynamic> json, String key) {
+  static Timestamp getTimestampOrDefault(
+    Map<String, dynamic> json,
+    String key,
+  ) {
     final isValid = _isTimeStampValid(json, key);
 
     if (isValid == false) {

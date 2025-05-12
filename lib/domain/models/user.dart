@@ -24,9 +24,4 @@ class User extends UserBase {
 
     return User(id: mapReader.getStringOrThrow('id'), name: base.name);
   }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return {...super.toJson(), 'id': id};
-  }
 }

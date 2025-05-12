@@ -10,10 +10,9 @@ typedef GetConversationMessagesUseCaseParams = ({String conversationId});
 
 /// retorna a lista de mensagens de uma conversa
 abstract class GetConversationMessagesUseCase
-    implements
-        UseCase<List<MessageBase>, GetConversationMessagesUseCaseParams> {
+    implements UseCase<List<Message>, GetConversationMessagesUseCaseParams> {
   @override
-  Future<UseCaseResult<List<MessageBase>>> call(
+  Future<UseCaseResult<List<Message>>> call(
     GetConversationMessagesUseCaseParams params,
   );
 }

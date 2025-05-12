@@ -20,8 +20,8 @@ class MapReader {
       JsonPicker.getTimestampOrThrow(map, key);
   Timestamp? getTimestampOrNull(String key) =>
       JsonPicker.getTimestampOrNull(map, key);
-  Timestamp getTimestampOrZero(String key) =>
-      JsonPicker.getTimestampOrZero(map, key);
+  Timestamp getTimestampOrDefault(String key) =>
+      JsonPicker.getTimestampOrDefault(map, key);
 
   bool getBoolOrThrow(String key) => JsonPicker.getBoolOrThrow(map, key);
   bool getBoolOrFalse(String key) => JsonPicker.getBoolOrFalse(map, key);

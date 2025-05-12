@@ -4,7 +4,7 @@ import 'package:xatter/utils/map_reader.dart';
 class MessageBase {
   final String text;
   final bool isRead;
-  final DateTime sentAt;
+  final Timestamp sentAt;
 
   MessageBase({required this.text, required this.isRead, required this.sentAt});
 
@@ -12,7 +12,7 @@ class MessageBase {
     return MessageBase(
       text: mapReader.getStringOrThrow('text'),
       isRead: mapReader.getBoolOrFalse('isRead'),
-      sentAt: mapReader.getTimestampOrThrow('sentAt').toDate(),
+      sentAt: mapReader.getTimestampOrDefault('sentAt'),
     );
   }
 
@@ -20,7 +20,7 @@ class MessageBase {
     return {
       'text': text,
       'isRead': isRead,
-      'sentAt': Timestamp.fromDate(sentAt),
+      'sentAt': sentAt.microsecondsSinceEpoch,
     };
   }
 }
@@ -35,7 +35,7 @@ class Message extends MessageBase {
     required super.sentAt,
   });
 
-  factory Message.fromFirestoreMap(MapReader mapReader) {
+  factory Message.fromJson(MapReader mapReader) {
     final base = MessageBase.fromJson(mapReader);
     return Message(
       id: mapReader.getStringOrThrow('id'),
@@ -43,10 +43,5 @@ class Message extends MessageBase {
       isRead: base.isRead,
       sentAt: base.sentAt,
     );
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return {...super.toJson(), 'id': id};
   }
 }
